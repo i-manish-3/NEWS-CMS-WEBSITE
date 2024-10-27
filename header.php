@@ -66,6 +66,87 @@
     <!-- Custom stlylesheet -->
     <link rel="stylesheet" href="css/style.css">
 </head>
+<style>
+#menu-bar {
+    background-color: #333;
+    padding: 10px 0;
+    position: relative; 
+}
+
+.menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+}
+
+.menu li {
+    margin: 0 15px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.menu a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.menu a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .menu {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu li {
+        margin: 5px 0;
+    }
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px 0;
+}
+
+@media (max-width: 768px) {
+    .menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+    }
+
+    .menu.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
+    </style>
 <body>
 <!-- HEADER -->
 <div id="header">
@@ -99,38 +180,48 @@
 </div>
 <!-- /HEADER -->
 <!-- Menu Bar -->
+
 <div id="menu-bar">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-              <?php
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <?php
                 include "config.php";
 
-                if(isset($_GET['cid'])){
-                  $cat_id = $_GET['cid'];
+                if (isset($_GET['cid'])) {
+                    $cat_id = $_GET['cid'];
                 }
 
                 $sql = "SELECT * FROM category WHERE post > 0";
                 $result = mysqli_query($conn, $sql) or die("Query Failed. : Category");
-                if(mysqli_num_rows($result) > 0){
-                  $active = "";
-              ?>
-                <ul class='menu'>
-                  <li><a href='<?php echo $hostname; ?>'>Home</a></li>
-                  <?php while($row = mysqli_fetch_assoc($result)) {
-                    if(isset($_GET['cid'])){
-                      if($row['category_id'] == $cat_id){
-                        $active = "active";
-                      }else{
-                        $active = "";
-                      }
-                    }
-                    echo "<li><a class='{$active}' href='category.php?cid={$row['category_id']}'>{$row['category_name']}</a></li>";
-                  } ?>
+                if (mysqli_num_rows($result) > 0) {
+                    $active = "";
+                ?>
+                <ul class="menu">
+                    <li><a href="<?php echo $hostname; ?>">Home</a></li>
+                    <?php while ($row = mysqli_fetch_assoc($result)) {
+                        $active = (isset($_GET['cid']) && $row['category_id'] == $cat_id) ? "active" : "";
+                        echo "<li><a class='{$active}' href='category.php?cid={$row['category_id']}'>{$row['category_name']}</a></li>";
+                    } ?>
                 </ul>
                 <?php } ?>
             </div>
         </div>
     </div>
 </div>
-<!-- /Menu Bar -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const hamburger = document.querySelector(".hamburger");
+    const menu = document.querySelector(".menu");
+
+    hamburger.addEventListener("click", function() {
+        menu.classList.toggle("active");
+    });
+});
+</script>

@@ -8,10 +8,11 @@ if(isset($_POST['submit'])){
   $userid =mysqli_real_escape_string($conn,$_POST['user_id']);
   $fname =mysqli_real_escape_string($conn,$_POST['f_name']);
   $lname = mysqli_real_escape_string($conn,$_POST['l_name']);
+  $email = mysqli_real_escape_string($conn,$_POST['email']);
   $user = mysqli_real_escape_string($conn,$_POST['username']);
   $role = mysqli_real_escape_string($conn,$_POST['role']);
 
-  $sql = "UPDATE user SET first_name = '{$fname}', last_name = '{$lname}', username = '{$user}', role = '{$role}' WHERE user_id = {$userid}";
+  $sql = "UPDATE user SET first_name = '{$fname}', last_name = '{$lname}', Email = '{$email}', username = '{$user}', role = '{$role}' WHERE user_id = {$userid}";
 
     if(mysqli_query($conn,$sql)){
       header("Location: {$hostname}/admin/users.php");
@@ -45,6 +46,10 @@ if(isset($_POST['submit'])){
                       <div class="form-group">
                           <label>Last Name</label>
                           <input type="text" name="l_name" class="form-control" value="<?php echo $row['last_name'];  ?>" required>
+                      </div>
+                      <div class="form-group">
+                          <label>Email</label>
+                          <input type="email" name="email" class="form-control" value="<?php echo $row['Email'];  ?>" required>
                       </div>
                       <div class="form-group">
                           <label>User Name</label>

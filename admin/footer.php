@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <span>© Copyright 2019 News | Powered by <a href="http://yahoobaba.net/">Yahoo Baba</a></span>
+                <span>© Copyright 2024 BM News | Powered by <a href="https://github.com/i-manish-3">BM News</a></span>
             </div>
         </div>
     </div>
